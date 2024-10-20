@@ -5,16 +5,18 @@ import Modal from "@mui/material/Modal";
 import AddIcon from "@mui/icons-material/Add";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
+import Typography from "@mui/material/Typography";
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 500,
   bgcolor: "background.paper",
   boxShadow: 24,
-  p: 4,
+  p: 3,
+  width: { xs: "90%", sm: 400 }, // Responsive width
+  borderRadius: 2,
 };
 
 const CreateCategoryModal = ({
@@ -91,11 +93,14 @@ const CreateCategoryModal = ({
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
+        <Typography variant="h6" component="h2" textAlign="center" mb={2}>
+          {isEditing ? "Edit Category" : "Create Category"}
+        </Typography>
         <form onSubmit={handleSubmit}>
-          <div className="mt-5">
+          <Box mt={2}>
             <label
               htmlFor="category_name"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
             >
               Category name
             </label>
@@ -108,19 +113,23 @@ const CreateCategoryModal = ({
               value={categoryName}
               onChange={(e) => setCategoryName(e.target.value)}
             />
-          </div>
+          </Box>
 
-          <div className="flex justify-center mt-10">
+          <Box mt={3} display="flex" justifyContent="center">
             <Button
               type="submit"
               variant="contained"
               endIcon={loading ? <CircularProgress size={20} /> : <AddIcon />}
-              style={{ backgroundColor: "black", width: "500px" }}
+              sx={{
+                backgroundColor: "black",
+                width: "100%",
+                maxWidth: "400px",
+              }} // Responsive button
               disabled={loading}
             >
               {loading ? "Saving..." : isEditing ? "Update" : "Add"}
             </Button>
-          </div>
+          </Box>
         </form>
       </Box>
     </Modal>

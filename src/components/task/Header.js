@@ -3,6 +3,7 @@ import WavingHandIcon from "@mui/icons-material/WavingHand";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
+import { Box, Typography } from "@mui/material";
 
 const Header = ({ setOpen, setOpenModal }) => {
   const [greeting, setGreeting] = useState("");
@@ -44,51 +45,55 @@ const Header = ({ setOpen, setOpenModal }) => {
     }
   };
 
-  const handletaskModal = () => {
+  const handleTaskModal = () => {
     if (token) {
       setOpen(true);
     } else {
       navigate("/login");
     }
   };
+
   return (
-    <>
-      <div className="flex items-center justify-between">
-        <div className="flex flex-col items-start gap-2">
-          <div className="flex items-center gap-4">
-            <h1 className="text-xl font-bold text-black">
-              {greeting}, Pragati!{" "}
-            </h1>
-            <span>
-              <WavingHandIcon style={{ color: "#F3C623" }} />
-            </span>
-          </div>
-          <p className="text-gray-400 font-semibold text-md">{currentDate}</p>
-        </div>
-        <div className="flex items-center gap-4">
-          <div>
-            <Button
-              variant="outlined"
-              startIcon={<AddIcon />}
-              sx={{ color: "black" }}
-              onClick={handleCategoryModal}
-            >
-              Create new category
-            </Button>
-          </div>
-          <div>
-            <Button
-              variant="contained"
-              startIcon={<AddIcon />}
-              style={{ backgroundColor: "black" }}
-              onClick={handletaskModal}
-            >
-              Create new task
-            </Button>
-          </div>
-        </div>
-      </div>
-    </>
+    <Box 
+      sx={{ 
+        display: "flex", 
+        flexDirection: { xs: "column", sm: "row" }, 
+        justifyContent: "space-between", 
+        alignItems: "center",
+        padding: 2,
+        gap: 2
+      }}
+    >
+      <Box sx={{ textAlign: { xs: "center", sm: "left" } }}>
+        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 1 }}>
+          <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+            {greeting}
+          </Typography>
+          <WavingHandIcon sx={{ color: "#F3C623" }} />
+        </Box>
+        <Typography variant="body2" sx={{ color: "gray" }}>
+          {currentDate}
+        </Typography>
+      </Box>
+      <Box sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" }, gap: 2 }}>
+        <Button
+          variant="outlined"
+          startIcon={<AddIcon />}
+          onClick={handleCategoryModal}
+          sx={{ color: "black" }}
+        >
+          Create new category
+        </Button>
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          onClick={handleTaskModal}
+          sx={{ backgroundColor: "black" }}
+        >
+          Create new task
+        </Button>
+      </Box>
+    </Box>
   );
 };
 

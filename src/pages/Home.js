@@ -27,7 +27,7 @@ export default function Home() {
   const [catLoading, setCatLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
   const [page, setPage] = useState(1);
-  const limit = 6;
+  const limit = 5;
 
   const [open, setOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
@@ -147,23 +147,21 @@ export default function Home() {
                 </button>
               </div>
               <div className="flex-shrink-0 flex items-center px-4 mt-5">
-                <h1>Task Manager</h1>
+              <img
+                src="https://i0.wp.com/9to5google.com/wp-content/uploads/sites/4/2018/03/google_tasks_leaked_icon.jpg?resize=1200%2C628&quality=82&strip=all&ssl=1"
+                className="w-20"
+              />
+              <h1 className="text-xl font-bold font-mono">Task Manager</h1>
               </div>
               <nav className="mt-5 px-2 space-y-1">
-                {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className={`group flex items-center px-2 py-2 text-base font-medium rounded-md ${
-                      item.current
-                        ? "bg-gray-900 text-white"
-                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-                    }`}
-                  >
-                    <item.icon className="mr-4 h-6 w-6" aria-hidden="true" />
-                    {item.name}
-                  </a>
-                ))}
+              <TaskFilter
+                catLoading={catLoading}
+                error={error}
+                categories={categories}
+                fetchCategories={fetchCategories}
+                handleCategoryEdit={handleCategoryEdit}
+                onFilterChange={handleFilterChange}
+              />
               </nav>
             </div>
           </div>

@@ -5,7 +5,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import IconButton from "@mui/material/IconButton";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import AccessTimeIcon from "@mui/icons-material/AccessTime"; 
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -76,7 +76,7 @@ const TaskList = ({
           <img
             src="https://cdni.iconscout.com/illustration/premium/thumb/businessman-completed-tasks-illustration-download-in-svg-png-gif-file-formats--no-task-list-tasklist-complete-done-emaily-pack-communication-illustrations-4202464.png?f=webp"
             alt="No tasks"
-            style={{ width: "200px", height: "200px" }}
+            style={{ width: "100%", maxWidth: "200px", height: "auto" }}
           />
           <Typography variant="h6" sx={{ color: "gray", mt: 2 }}>
             No tasks available.
@@ -87,46 +87,46 @@ const TaskList = ({
           {tasks.map((task) => (
             <ListItem
               key={task._id}
-              secondaryAction={
-                <Box display="flex" alignItems="center">
-                  <IconButton
-                    edge="end"
-                    aria-label="edit"
-                    size="small"
-                    title="Edit Task"
-                    onClick={() => handleEditClick(task)}
-                  >
-                    <EditIcon sx={{ color: "#E4E0E1" }} />
-                  </IconButton>
-                  <IconButton
-                    edge="end"
-                    aria-label="delete"
-                    size="small"
-                    title="Delete Task"
-                    onClick={() => handleDeleteClick(task._id)}
-                  >
-                    <DeleteIcon sx={{ color: "#E4E0E1" }} />
-                  </IconButton>
-                </Box>
-              }
               sx={{
                 bgcolor: "white",
                 mb: 2,
-                p: 1,
+                p: 2,
                 boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.1)",
                 borderRadius: "8px",
+                flexDirection: "row", // Change direction to row
+                justifyContent: "space-between", // Space items evenly
+                alignItems: "center", // Center items vertically
               }}
               disablePadding
             >
               <ListItemButton dense>
-            
-                {getStatusIcon(task.status)}
                 <ListItemText
-                  sx={{ fontSize: 14 }}
+                  sx={{ fontSize: { xs: 12, sm: 14 }, mr: 1 }} // Adjust margin
                   id={`checkbox-list-label-${task._id}`}
                   primary={task.title}
                 />
+                {getStatusIcon(task.status)}
               </ListItemButton>
+              <Box display="flex" alignItems="center">
+                <IconButton
+                  edge="end"
+                  aria-label="edit"
+                  size="small"
+                  title="Edit Task"
+                  onClick={() => handleEditClick(task)}
+                >
+                  <EditIcon sx={{ color: "#E4E0E1" }} />
+                </IconButton>
+                <IconButton
+                  edge="end"
+                  aria-label="delete"
+                  size="small"
+                  title="Delete Task"
+                  onClick={() => handleDeleteClick(task._id)}
+                >
+                  <DeleteIcon sx={{ color: "#E4E0E1" }} />
+                </IconButton>
+              </Box>
             </ListItem>
           ))}
         </List>
@@ -139,9 +139,8 @@ const TaskList = ({
             mt: 3,
             position: "fixed",
             bottom: 50,
-            bgcolor: "white",
             p: 2,
-            boxShadow: "0px -3px 6px rgba(0, 0, 0, 0.1)",
+            width: "100%",
           }}
         >
           <Pagination
@@ -150,6 +149,7 @@ const TaskList = ({
             onChange={handlePageChange}
             variant="outlined"
             shape="rounded"
+            size="small"
           />
         </Box>
       )}
