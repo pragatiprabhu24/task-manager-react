@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaBars, FaSignOutAlt, FaHome, FaCog, FaUser } from "react-icons/fa";
+import { FaBars, FaHome, FaCog, FaUser } from "react-icons/fa";
 import { FiX } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import TaskList from "../components/task/TaskList";
@@ -9,6 +9,9 @@ import axios from "axios";
 import CreateCategoryModal from "../components/task/CreateCategoryModal";
 import CreateTaskModal from "../components/task/CreateTaskModal";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import TaskCalenderModal from "../components/task/TaskCalenderModal";
 
 const navigation = [
   { name: "Dashboard", href: "#", icon: FaHome, current: true },
@@ -28,6 +31,7 @@ export default function Home() {
 
   const [open, setOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [openCalender, setOpenCalender] = useState(false);
 
   const [selectedTask, setSelectedTask] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -196,8 +200,19 @@ export default function Home() {
             >
               <FaBars className="h-6 w-6" aria-hidden="true" />
             </button>
-            <div className="flex-1 px-4 flex justify-between">
-              <div className="flex-1 flex"></div>
+            <div className="flex-1 px-4 flex items-center justify-between">
+              <div className="flex-1 flex">
+                {token && (
+                  <div
+                    className="bg-gray-100 p-2 font-bold text-md cursor-pointer"
+                    onClick={() => setOpenCalender(true)}
+                  >
+                    <h1 className="flex items-center gap-2">
+                      <CalendarMonthIcon /> Task Calendar
+                    </h1>
+                  </div>
+                )}
+              </div>
               <div className="ml-4 flex items-center">
                 <div className="ml-3 relative">
                   <div className="flex items-center space-x-3">
@@ -255,6 +270,11 @@ export default function Home() {
         existingCategory={selectedCategory}
         isEditing={!!selectedCategory}
         onRefresh={fetchCategories}
+      />
+      <TaskCalenderModal
+        open={openCalender}
+        setOpen={setOpenCalender}
+        tasks={tasks}
       />
     </>
   );
