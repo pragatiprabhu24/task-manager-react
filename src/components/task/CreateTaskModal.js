@@ -56,6 +56,7 @@ const CreateTaskModal = ({
     e.preventDefault();
     setLoading(true);
 
+  
     const taskData = {
       title: taskName,
       description: taskDescription,
@@ -63,12 +64,13 @@ const CreateTaskModal = ({
       dueDate: new Date(dueDate).toISOString(),
       category: category,
     };
-
+  
     try {
       const token = localStorage.getItem("token");
-
+      let response;
+  
       if (isEditing && existingTask) {
-        await axios.put(
+        response = await axios.put(
           `https://task-manager-nodejs-nyyo.onrender.com/tasks/tasks/${existingTask._id}`,
           taskData,
           {
@@ -78,7 +80,7 @@ const CreateTaskModal = ({
           }
         );
       } else {
-        await axios.post(
+        response = await axios.post(
           "https://task-manager-nodejs-nyyo.onrender.com/tasks/tasks",
           taskData,
           {
@@ -88,15 +90,23 @@ const CreateTaskModal = ({
           }
         );
       }
-
-      handleClose();
+  
+      if (response.status === 201 || response.status === 200) {
+        setTaskName("");
+        setTaskDescription("");
+        setTaskStatus("pending");
+        setDueDate("");
+        setCategory("");
+  
+        handleClose();
+        fetchCategories()
+      }
     } catch (error) {
       console.error("Error saving task:", error);
     } finally {
       setLoading(false);
     }
   };
-
   return (
     <Modal open={open} onClose={handleClose}>
       <Box sx={style}>
