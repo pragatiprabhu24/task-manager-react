@@ -92,7 +92,7 @@ const TaskFilter = ({
             </h1>
           </div>
           <Box sx={{ maxHeight: 400, overflowY: "auto" }}>
-            {catLoading && <Typography>Loading categories...</Typography>}
+            {catLoading && <Typography sx={{ textAlign:"center"}}>processing...</Typography>}
             {error && <Typography color="error">{error}</Typography>}
             <List>
               {categories.map((category) => (

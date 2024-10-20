@@ -72,10 +72,10 @@ const Login = () => {
           >
             <Form>
               <InputField
-                label="Email/Username"
+                label="Email"
                 name="identifier"
                 type="text"
-                placeholder="e.g: john@gmail.com or john123"
+                placeholder="e.g: john@gmail.com"
               />
               <InputField
                 label="Password"

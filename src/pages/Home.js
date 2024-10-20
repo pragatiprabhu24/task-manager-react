@@ -27,7 +27,7 @@ export default function Home() {
   const [catLoading, setCatLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
   const [page, setPage] = useState(1);
-  const limit = 5;
+  const limit = 3;
 
   const [open, setOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);

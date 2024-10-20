@@ -119,7 +119,7 @@ const CreateCategoryModal = ({
             <Button
               type="submit"
               variant="contained"
-              endIcon={loading ? <CircularProgress size={20} /> : <AddIcon />}
+              endIcon={loading ? <CircularProgress size={20} /> : null}
               sx={{
                 backgroundColor: "black",
                 width: "100%",

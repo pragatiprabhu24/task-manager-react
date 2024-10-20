@@ -58,6 +58,11 @@ const TaskList = ({
     }
   };
 
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
   return (
     <>
       {loading ? (
@@ -70,7 +75,6 @@ const TaskList = ({
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            mt: 5,
           }}
         >
           <img
@@ -93,17 +97,39 @@ const TaskList = ({
                 p: 2,
                 boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.1)",
                 borderRadius: "8px",
-                flexDirection: "row", // Change direction to row
-                justifyContent: "space-between", // Space items evenly
-                alignItems: "center", // Center items vertically
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
               }}
               disablePadding
             >
               <ListItemButton dense>
                 <ListItemText
-                  sx={{ fontSize: { xs: 12, sm: 14 }, mr: 1 }} // Adjust margin
+                  sx={{ fontSize: { xs: 12, sm: 14 }, mr: 1 }}
                   id={`checkbox-list-label-${task._id}`}
                   primary={task.title}
+                  primaryTypographyProps={{
+                    variant: "h6",
+                    color: "primary",
+                    fontSize: { xs: 16, sm: 18 },
+                    fontWeight: "bold",
+                  }}
+                  secondary={
+                    <>
+                      <Typography
+                        variant="body2"
+                        sx={{ fontWeight: "bold" }}
+                        color="text.secondary"
+                      >
+                        {task.description}
+                      </Typography>
+                      {task.status !== "completed" && (
+                        <Typography variant="caption" color="error">
+                          Due date: {formatDate(task.dueDate)}
+                        </Typography>
+                      )}
+                    </>
+                  }
                 />
                 {getStatusIcon(task.status)}
               </ListItemButton>
@@ -138,7 +164,7 @@ const TaskList = ({
             display: "flex",
             mt: 3,
             position: "fixed",
-            bottom: 50,
+            bottom: 20,
             p: 2,
             width: "100%",
           }}

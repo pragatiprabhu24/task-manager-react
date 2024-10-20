@@ -15,7 +15,7 @@ const style = {
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 3,
-  width: { xs: "90%", sm: "500px" }, // Responsive width
+  width: { xs: "90%", sm: "500px" }, 
   borderRadius: 2,
 };
 
@@ -45,7 +45,7 @@ const CreateTaskModal = ({
     } else {
       setTaskName("");
       setTaskDescription("");
-      setTaskStatus("pending");
+      setTaskStatus("");
       setDueDate("");
       setCategory("");
     }
@@ -80,6 +80,11 @@ const CreateTaskModal = ({
           }
         );
         if (response.status === 201 || response.status === 200) {
+          setTaskName("");
+          setTaskDescription("");
+          setTaskStatus("");
+          setDueDate("");
+          setCategory("");
           handleClose();
           fetchTasks();
         }
@@ -98,7 +103,7 @@ const CreateTaskModal = ({
       if (response.status === 201 || response.status === 200) {
         setTaskName("");
         setTaskDescription("");
-        setTaskStatus("pending");
+        setTaskStatus("");
         setDueDate("");
         setCategory("");
 
@@ -227,7 +232,7 @@ const CreateTaskModal = ({
             <Button
               type="submit"
               variant="contained"
-              endIcon={loading ? <CircularProgress size={20} /> : <AddIcon />}
+              endIcon={loading ? <CircularProgress size={20} /> : null}
               disabled={loading}
               sx={{
                 backgroundColor: "black",
