@@ -261,6 +261,7 @@ export default function Home() {
         isEditing={!!selectedTask}
         fetchCategories={fetchCategories}
         categories={categories}
+        fetchTasks={fetchTasks}
       />
       <CreateCategoryModal
         open={openModal}

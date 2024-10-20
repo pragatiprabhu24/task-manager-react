@@ -26,6 +26,7 @@ const CreateTaskModal = ({
   isEditing = false,
   fetchCategories,
   categories,
+  fetchTasks,
 }) => {
   const [taskName, setTaskName] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
@@ -56,7 +57,6 @@ const CreateTaskModal = ({
     e.preventDefault();
     setLoading(true);
 
-  
     const taskData = {
       title: taskName,
       description: taskDescription,
@@ -64,11 +64,11 @@ const CreateTaskModal = ({
       dueDate: new Date(dueDate).toISOString(),
       category: category,
     };
-  
+
     try {
       const token = localStorage.getItem("token");
       let response;
-  
+
       if (isEditing && existingTask) {
         response = await axios.put(
           `https://task-manager-nodejs-nyyo.onrender.com/tasks/tasks/${existingTask._id}`,
@@ -79,6 +79,10 @@ const CreateTaskModal = ({
             },
           }
         );
+        if (response.status === 201 || response.status === 200) {
+          handleClose();
+          fetchTasks();
+        }
       } else {
         response = await axios.post(
           "https://task-manager-nodejs-nyyo.onrender.com/tasks/tasks",
@@ -90,16 +94,16 @@ const CreateTaskModal = ({
           }
         );
       }
-  
+
       if (response.status === 201 || response.status === 200) {
         setTaskName("");
         setTaskDescription("");
         setTaskStatus("pending");
         setDueDate("");
         setCategory("");
-  
+
         handleClose();
-        fetchCategories()
+        fetchTasks();
       }
     } catch (error) {
       console.error("Error saving task:", error);
@@ -115,7 +119,10 @@ const CreateTaskModal = ({
         </Typography>
         <form onSubmit={handleSubmit}>
           <Box mt={2}>
-            <label htmlFor="task_name" className="block mb-1 text-sm font-medium text-gray-900">
+            <label
+              htmlFor="task_name"
+              className="block mb-1 text-sm font-medium text-gray-900"
+            >
               Task name
             </label>
             <input
@@ -130,7 +137,10 @@ const CreateTaskModal = ({
           </Box>
 
           <Box mt={2}>
-            <label htmlFor="task_description" className="block mb-1 text-sm font-medium text-gray-900">
+            <label
+              htmlFor="task_description"
+              className="block mb-1 text-sm font-medium text-gray-900"
+            >
               Task description
             </label>
             <textarea
@@ -144,7 +154,9 @@ const CreateTaskModal = ({
           </Box>
 
           <Box mt={2}>
-            <h3 className="block mb-1 text-sm font-medium text-gray-900">Mark Status</h3>
+            <h3 className="block mb-1 text-sm font-medium text-gray-900">
+              Mark Status
+            </h3>
             <ul className="items-center w-full text-sm font-medium text-gray-900 bg-white border rounded-lg sm:flex">
               {["pending", "in-progress", "completed"].map((status) => (
                 <li key={status} className="w-full border-b sm:border-r">
@@ -158,7 +170,10 @@ const CreateTaskModal = ({
                       onChange={(e) => setTaskStatus(e.target.value)}
                       className="w-4 h-4"
                     />
-                    <label htmlFor={`status-${status}`} className="w-full py-3 ms-2">
+                    <label
+                      htmlFor={`status-${status}`}
+                      className="w-full py-3 ms-2"
+                    >
                       {status}
                     </label>
                   </div>
@@ -168,7 +183,10 @@ const CreateTaskModal = ({
           </Box>
 
           <Box mt={2}>
-            <label htmlFor="category" className="block mb-1 text-sm font-medium text-gray-900">
+            <label
+              htmlFor="category"
+              className="block mb-1 text-sm font-medium text-gray-900"
+            >
               Choose category
             </label>
             <select
@@ -176,7 +194,6 @@ const CreateTaskModal = ({
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-           
             >
               <option value="" disabled>
                 Select a category
@@ -190,7 +207,10 @@ const CreateTaskModal = ({
           </Box>
 
           <Box mt={2}>
-            <label htmlFor="due_date" className="block mb-1 text-sm font-medium text-gray-900">
+            <label
+              htmlFor="due_date"
+              className="block mb-1 text-sm font-medium text-gray-900"
+            >
               Select due date
             </label>
             <input
@@ -209,7 +229,11 @@ const CreateTaskModal = ({
               variant="contained"
               endIcon={loading ? <CircularProgress size={20} /> : <AddIcon />}
               disabled={loading}
-              sx={{ backgroundColor: "black", width: "100%", maxWidth: "500px" }} // Make button responsive
+              sx={{
+                backgroundColor: "black",
+                width: "100%",
+                maxWidth: "500px",
+              }} // Make button responsive
             >
               {loading ? "Saving..." : isEditing ? "Update task" : "Add task"}
             </Button>
